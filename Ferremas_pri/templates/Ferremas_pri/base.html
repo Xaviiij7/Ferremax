@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>FERREMAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="{% static 'img/Icono_Ferremas.png' %}" width="120px" alt="martillo básico">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                        <li><a href="{% url 'inicio' %}">Productos</a></li>
+                        <li><a href="{% url 'inicio' %}">Informaciones</a></li>
+                        <li><a href="{% url 'inicio' %}">Menú</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                        {% else %}
+                            <li><a href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a></li>
+                        {% endif %}
+                        <li>
+                          <a href="#Modal0"><img src="{% static 'img/Icono_Compra.png' %}" height="30px" alt="Carrito de Compra"></a>
+                          <div id="Modal0" class="modal0">
+                            <div class="modal0-contenido">  
+                            </div>
+                          </div>
+                      </li>
+                    </ul>
+                </nav>
+            </div>
+        <div class="containter-fluid">
+                {% block content %}
+                {% endblock %}
+        </div>
+
+        <!-- Modal Login -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Contenido del Modal -->
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:35px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                    </div>
+                    <div class="modal-body" style="padding:40px 50px;">
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="username"><span class="glyphicon glyphicon-user"></span> Correo Electronico:</label>
+                                <input type="text" class="form-control" id="username" name="username" autocomplete="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><span class="glyphicon glyphicon-eye-open"></span> Contraseña:</label>
+                                <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="" checked> Recordarme</label>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Iniciar Sesión</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        <p>¿No eres miembro? <a href="{% url 'register' %}">Registrarse</a></p>
+                        <p>¿Olvidaste tu <a href="#">contraseña?</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie de Página -->
+            <div class="footer">
+                <div class="row" style="padding: 1%;">
+                    <div class="col-3">
+                        <h6 style="color: rgb(88, 38, 20);">CONTACTO</h6>
+                        <p style="font-size: smaller; color: rgb(10, 10, 10);">
+                            contacto@ferremax.cl<br>
+                            +56 9 1234 5678<br>
+                            +56 9 8765 4321<br>
+                            Av. Central 456, Local 3. Santiago, Chile
+                        </p>
+                    </div>
+
+                    <div class="col-6">
+                        <h6 style="color: rgb(88, 38, 20);">LINKS DE INTERÉS</h6>
+                        <p style="font-size: smaller; color: rgb(10, 10, 10);">
+                            • Home<br>
+                            • Productos<br>
+                            • Servicios<br>
+                            • Términos y condiciones<br>
+                            • Contacto
+                        </p>
+                    </div>
+
+                    <div class="col-3">
+                        <h6 style="color: rgb(88, 38, 20)">HORARIOS</h6>
+                        <p style="font-size: smaller; color: rgb(10, 10, 10);">
+                            Lunes a viernes<br>
+                            09:30 a 14:00 hrs.<br>
+                            15:00 a 18:00 hrs.
+                        </p>
+                        <p style="font-size: smaller; color: rgb(10, 10, 10);">
+                            Síguenos en:<br>
+                            Facebook / Instagram
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            $(document).ready(function(){
+                $("#myBtn").click(function(){
+                    $("#myModal").modal();
+                });
+            });
+        </script>
+    <script src="{% static 'js/carrito.js' %}"> </script>
+    </div>
+</body>
+</html>
+
